@@ -1,18 +1,24 @@
 #include <Arduino.h>
+#include "HCSR04.h"
 
-// put function declarations here:
-int myFunction(int, int);
+// pin defines
+const uint8_t TRIG_PIN = 12;
+const uint8_t ECHO_PIN = 2;
+
+HCSR04 sensor(TRIG_PIN, ECHO_PIN, 30000);  // 30 ms timeout ≈ ~5 m range
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  sensor.begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  float distance_cm = sensor.read_cm();
+  if (distance_cm < 0) {
+    Serial.println("Out of range");
+  } else {
+    Serial.print("Distance: ");
+    Serial.print(distance_cm);
+    Serial.println(" cm");
+  }
 }
