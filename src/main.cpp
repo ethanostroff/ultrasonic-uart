@@ -55,7 +55,7 @@ void loop() {
 }
 
 // Returns true only if we get `need` consecutive valid reads <= thresh_cm.
-bool debouncedNear(float thresh_cm, uint8_t need, uint16_t gap_ms = 0) {
+bool debouncedNear(float thresh_cm, uint8_t need, uint16_t gap_ms) {
   for (uint8_t i = 0; i < need; ++i) {
     float cm = sensor.read_cm();
     if (cm < 0 || cm > thresh_cm) return false;  // timeout or too far
@@ -65,7 +65,7 @@ bool debouncedNear(float thresh_cm, uint8_t need, uint16_t gap_ms = 0) {
 }
 
 // Returns true only if we get `need` consecutive valid reads >= thresh_cm.
-bool debouncedFar(float thresh_cm, uint8_t need, uint16_t gap_ms = 0) {
+bool debouncedFar(float thresh_cm, uint8_t need, uint16_t gap_ms) {
   for (uint8_t i = 0; i < need; ++i) {
     float cm = sensor.read_cm();
     if (cm < 0 || cm < thresh_cm) return false;  // timeout or still near
